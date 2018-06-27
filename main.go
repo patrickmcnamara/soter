@@ -19,7 +19,6 @@ func main() {
 		Usage:                 "Sign and verify files",
 		Version:               "0.1 (alpha)",
 		Description:           "Sign and verify files using public key cryptography.",
-		EnableShellCompletion: true,
 		Authors:               []*cli.Author{{Name: "Patrick McNamara", Email: "hello@patrickmcnamara.xyz"}},
 	}
 
@@ -42,7 +41,7 @@ func main() {
 				publicKeyEncoded := encoding.PublicKeyToEncoded(publicKey)
 				files.WriteKeyfile(keyfile, privateKey)
 				fmt.Printf("Public key is \"%s\".\n", publicKeyEncoded)
-				fmt.Printf("Private key is in \"%s\".\n", keyfile)
+				fmt.Printf("Private key is in keyfile \"%s\".\n", keyfile)
 				return nil
 			},
 		},
@@ -63,7 +62,7 @@ func main() {
 				fmt.Print("Soter is backupping a keyfile...\n\n")
 				time.Sleep(time.Second)
 				files.BackupKeyfile(backupKeyfile, keyfile)
-				fmt.Printf("Backupped \"%s\" to \"%s\".\n", keyfile, backupKeyfile)
+				fmt.Printf("Backupped keyfile \"%s\" to keyfile \"%s\".\n", keyfile, backupKeyfile)
 				return nil
 			},
 		},
@@ -84,7 +83,26 @@ func main() {
 				fmt.Print("Soter is restoring a keyfile...\n\n")
 				time.Sleep(time.Second)
 				files.RestoreKeyfile(backupKeyfile, keyfile)
-				fmt.Printf("Restored \"%s\" to \"%s\".\n", backupKeyfile, keyfile)
+				fmt.Printf("Restored keyfile \"%s\" to keyfile \"%s\".\n", backupKeyfile, keyfile)
+				return nil
+			},
+		},
+		{
+			Name:    "change-keyfile-password",
+			Aliases: []string{"ckp"},
+			Usage:   "Change password to keyfile",
+
+			Flags: []cli.Flag{
+				flags.KeyfileFlag,
+			},
+
+			Action: func(c *cli.Context) error {
+				keyfile := c.String("keyfile")
+
+				fmt.Print("Soter is changing password to a keyfile...\n\n")
+				time.Sleep(time.Second)
+				files.ChangeKeyfilePassword(keyfile)
+				fmt.Printf("Changed password for keyfile \"%s\".\n", keyfile)
 				return nil
 			},
 		},
@@ -102,11 +120,11 @@ func main() {
 				keyfile := c.String("keyfile")
 				file := c.String("file")
 
-				fmt.Print("Soter is signing a file...\n\n")
+				fmt.Print("Soter is signing a file with a private key...\n\n")
 				time.Sleep(time.Second)
 				privateKey := files.ReadKeyfile(keyfile)
 				files.SignFile(file, privateKey)
-				fmt.Printf("Signed file \"%s\" with private key in \"%s\".\n", file, keyfile)
+				fmt.Printf("Signed file \"%s\" with private key in keyfile \"%s\".\n", file, keyfile)
 				return nil
 			},
 		},
@@ -124,7 +142,7 @@ func main() {
 				file := c.String("file")
 				publicKeyEncoded := c.String("public-key")
 
-				fmt.Print("Soter is verifying a file...\n\n")
+				fmt.Print("Soter is verifying a file with a public key...\n\n")
 				time.Sleep(time.Second)
 				publicKey := encoding.EncodedToPublicKey(publicKeyEncoded)
 				verification := files.VerifyFile(file, publicKey)
@@ -144,12 +162,12 @@ func main() {
 			Action: func(c *cli.Context) error {
 				keyfile := c.String("keyfile")
 
-				fmt.Print("Soter is printing a public key from the keyfile...\n\n")
+				fmt.Print("Soter is printing a public key from a keyfile...\n\n")
 				time.Sleep(time.Second)
 				privateKey := files.ReadKeyfile(keyfile)
 				publicKey := crypto.GetPublicKey(privateKey)
 				publicKeyEncoded := encoding.PublicKeyToEncoded(publicKey)
-				fmt.Printf("Public key is \"%s\".\n", publicKeyEncoded)
+				fmt.Printf("Public key \"%s\" from keyfile \"%s\".\n", publicKeyEncoded, keyfile)
 				return nil
 			},
 		},

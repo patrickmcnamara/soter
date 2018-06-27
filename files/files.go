@@ -9,14 +9,21 @@ import (
 )
 
 func WriteKeyfile(keyfile string, privateKey ed25519.PrivateKey) {
-	privateKey = crypto.EncryptKey(privateKey)
-	ioutil.WriteFile(keyfile, privateKey, 0600)
+	privateKeyEncrypted := crypto.EncryptKey(privateKey)
+	ioutil.WriteFile(keyfile, privateKeyEncrypted, 0600)
 }
 
 func ReadKeyfile(keyfile string) (privateKey ed25519.PrivateKey) {
-	privateKey, _ = ioutil.ReadFile(keyfile)
-	privateKey = crypto.DecryptKey(privateKey)
+	privateKeyEncrypted, _ := ioutil.ReadFile(keyfile)
+	privateKey = crypto.DecryptKey(privateKeyEncrypted)
 	return privateKey
+}
+
+func ChangeKeyfilePassword(keyfile string) {
+	privateKeyEncrypted, _ := ioutil.ReadFile(keyfile)
+	privateKey := crypto.DecryptKey(privateKeyEncrypted)
+	privateKeyEncrypted = crypto.EncryptKey(privateKey)
+	ioutil.WriteFile(keyfile, privateKeyEncrypted, 0600)
 }
 
 func BackupKeyfile(file, keyfile string) {

@@ -15,11 +15,11 @@ import (
 
 func main() {
 	app := &cli.App{
-		Name:                  "Soter",
-		Usage:                 "Sign and verify files",
-		Version:               "0.1 (alpha)",
-		Description:           "Sign and verify files using public key cryptography.",
-		Authors:               []*cli.Author{{Name: "Patrick McNamara", Email: "hello@patrickmcnamara.xyz"}},
+		Name:        "Soter",
+		Usage:       "Sign and verify files",
+		Version:     "0.1 (alpha)",
+		Description: "Sign and verify files using public key cryptography.",
+		Authors:     []*cli.Author{{Name: "Patrick McNamara", Email: "hello@patrickmcnamara.xyz"}},
 	}
 
 	app.Commands = []*cli.Command{
@@ -46,9 +46,9 @@ func main() {
 			},
 		},
 		{
-			Name:    "backup-keypair",
+			Name:    "backup-keyfile",
 			Aliases: []string{"bk"},
-			Usage:   "Backup a keypair",
+			Usage:   "Backup a keyfile",
 
 			Flags: []cli.Flag{
 				flags.BackupKeyfileFlag,
@@ -67,9 +67,9 @@ func main() {
 			},
 		},
 		{
-			Name:    "restore-keypair",
+			Name:    "restore-keyfile",
 			Aliases: []string{"rk"},
-			Usage:   "Restore a keypair",
+			Usage:   "Restore a keyfile",
 
 			Flags: []cli.Flag{
 				flags.BackupKeyfileFlag,
@@ -109,7 +109,7 @@ func main() {
 		{
 			Name:    "sign",
 			Aliases: []string{"s"},
-			Usage:   "Sign a file",
+			Usage:   "Sign a file using a keyfile",
 
 			Flags: []cli.Flag{
 				flags.SignFileFlag,
@@ -131,7 +131,7 @@ func main() {
 		{
 			Name:    "verify",
 			Aliases: []string{"v"},
-			Usage:   "Verify a file",
+			Usage:   "Verify a file with a public key",
 
 			Flags: []cli.Flag{
 				flags.VerifyFileFlag,
@@ -153,7 +153,7 @@ func main() {
 		{
 			Name:    "print-public-key",
 			Aliases: []string{"ppk"},
-			Usage:   "Print a public key",
+			Usage:   "Print a public key from a keyfile",
 
 			Flags: []cli.Flag{
 				flags.KeyfileFlag,

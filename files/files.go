@@ -50,10 +50,10 @@ func VerifyFile(publicKey ed25519.PublicKey, file string) (verification bool) {
 }
 
 func writeSignatureFile(signature []byte, file string) {
-	ioutil.WriteFile(file+".str_s", signature, 0644)
+	ioutil.WriteFile(file+".s.soter", signature, 0644)
 }
 
 func readSignatureFile(file string) (signature []byte) {
-	signature, _ = ioutil.ReadFile(file + ".str_s")
+	signature, _ = ioutil.ReadFile(file + ".s.soter")
 	return signature
 }

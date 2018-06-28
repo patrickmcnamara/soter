@@ -17,7 +17,7 @@ var KeyfileFlag = &cli.StringFlag{
 	Name:        "keyfile",
 	Aliases:     []string{"k"},
 	Usage:       "use `file` as keyfile",
-	Value:       homeDirectory + "/.str_k",
+	Value:       homeDirectory + "/.k.soter",
 	Destination: &keyfile,
 }
 
@@ -25,7 +25,7 @@ var BackupKeyfileFlag = &cli.StringFlag{
 	Name:        "file",
 	Aliases:     []string{"f"},
 	Usage:       "use `file` as backup keyfile",
-	Value:       homeDirectory + "/.str_k.BAK",
+	Value:       homeDirectory + "/.k.soter.BAK",
 	Destination: &file,
 }
 

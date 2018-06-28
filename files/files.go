@@ -36,13 +36,13 @@ func RestoreKeyfile(file, keyfile string) {
 	ioutil.WriteFile(keyfile, data, 0600)
 }
 
-func SignFile(file string, privateKey ed25519.PrivateKey) {
+func SignFile(privateKey ed25519.PrivateKey, file string) {
 	data, _ := ioutil.ReadFile(file)
 	signature := crypto.Sign(data, privateKey)
 	writeSignatureFile(signature, file)
 }
 
-func VerifyFile(file string, publicKey ed25519.PublicKey) (verification bool) {
+func VerifyFile(publicKey ed25519.PublicKey, file string) (verification bool) {
 	data, _ := ioutil.ReadFile(file)
 	signature := readSignatureFile(file)
 	verification = crypto.Verify(data, signature, publicKey)

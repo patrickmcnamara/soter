@@ -5,11 +5,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/patrickmcnamara/soter/crypto"
-	"github.com/patrickmcnamara/soter/encoding"
-	"github.com/patrickmcnamara/soter/files"
 	"github.com/patrickmcnamara/soter/flags"
 
+	"github.com/patrickmcnamara/soter/cmd"
 	"gopkg.in/urfave/cli.v2"
 )
 
@@ -37,9 +35,7 @@ func main() {
 
 				fmt.Print("Soter is generating a new keypair...\n\n")
 				time.Sleep(time.Second)
-				publicKey, privateKey := crypto.GenerateKeypair()
-				publicKeyEncoded := encoding.PublicKeyToEncoded(publicKey)
-				files.WriteKeyfile(keyfile, privateKey)
+				publicKeyEncoded := cmd.GenerateKeypair(keyfile)
 				fmt.Printf("Public key is \"%s\".\n", publicKeyEncoded)
 				fmt.Printf("Private key is in keyfile \"%s\".\n", keyfile)
 				return nil
@@ -61,7 +57,7 @@ func main() {
 
 				fmt.Print("Soter is backupping a keyfile...\n\n")
 				time.Sleep(time.Second)
-				files.BackupKeyfile(backupKeyfile, keyfile)
+				cmd.BackupKeyfile(backupKeyfile, keyfile)
 				fmt.Printf("Backupped keyfile \"%s\" to keyfile \"%s\".\n", keyfile, backupKeyfile)
 				return nil
 			},
@@ -82,7 +78,7 @@ func main() {
 
 				fmt.Print("Soter is restoring a keyfile...\n\n")
 				time.Sleep(time.Second)
-				files.RestoreKeyfile(backupKeyfile, keyfile)
+				cmd.RestoreKeyfile(backupKeyfile, keyfile)
 				fmt.Printf("Restored keyfile \"%s\" to keyfile \"%s\".\n", backupKeyfile, keyfile)
 				return nil
 			},
@@ -101,7 +97,7 @@ func main() {
 
 				fmt.Print("Soter is changing password to a keyfile...\n\n")
 				time.Sleep(time.Second)
-				files.ChangeKeyfilePassword(keyfile)
+				cmd.ChangeKeyfilePassword(keyfile)
 				fmt.Printf("Changed password for keyfile \"%s\".\n", keyfile)
 				return nil
 			},
@@ -122,8 +118,7 @@ func main() {
 
 				fmt.Print("Soter is signing a file with a private key...\n\n")
 				time.Sleep(time.Second)
-				privateKey := files.ReadKeyfile(keyfile)
-				files.SignFile(file, privateKey)
+				cmd.Sign(keyfile, file)
 				fmt.Printf("Signed file \"%s\" with private key in keyfile \"%s\".\n", file, keyfile)
 				return nil
 			},
@@ -144,8 +139,7 @@ func main() {
 
 				fmt.Print("Soter is verifying a file with a public key...\n\n")
 				time.Sleep(time.Second)
-				publicKey := encoding.EncodedToPublicKey(publicKeyEncoded)
-				verification := files.VerifyFile(file, publicKey)
+				verification := cmd.Verify(publicKeyEncoded, file)
 				fmt.Printf("Verified file \"%s\" with public key \"%s\" as %t.\n", file, publicKeyEncoded, verification)
 				return nil
 			},
@@ -164,9 +158,7 @@ func main() {
 
 				fmt.Print("Soter is printing a public key from a keyfile...\n\n")
 				time.Sleep(time.Second)
-				privateKey := files.ReadKeyfile(keyfile)
-				publicKey := crypto.GetPublicKey(privateKey)
-				publicKeyEncoded := encoding.PublicKeyToEncoded(publicKey)
+				publicKeyEncoded := cmd.PrintPublicKey(keyfile)
 				fmt.Printf("Public key \"%s\" from keyfile \"%s\".\n", publicKeyEncoded, keyfile)
 				return nil
 			},

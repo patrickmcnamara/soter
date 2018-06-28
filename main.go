@@ -47,8 +47,8 @@ func main() {
 			Usage:   "Backup a keyfile",
 
 			Flags: []cli.Flag{
-				flags.BackupKeyfileFlag,
 				flags.KeyfileFlag,
+				flags.BackupKeyfileFlag,
 			},
 
 			Action: func(c *cli.Context) error {
@@ -68,8 +68,8 @@ func main() {
 			Usage:   "Restore a keyfile",
 
 			Flags: []cli.Flag{
-				flags.BackupKeyfileFlag,
 				flags.KeyfileFlag,
+				flags.BackupKeyfileFlag,
 			},
 
 			Action: func(c *cli.Context) error {
@@ -86,7 +86,7 @@ func main() {
 		{
 			Name:    "change-keyfile-password",
 			Aliases: []string{"ckp"},
-			Usage:   "Change password to keyfile",
+			Usage:   "Change password to a keyfile",
 
 			Flags: []cli.Flag{
 				flags.KeyfileFlag,
@@ -108,8 +108,8 @@ func main() {
 			Usage:   "Sign a file using a keyfile",
 
 			Flags: []cli.Flag{
-				flags.SignFileFlag,
 				flags.KeyfileFlag,
+				flags.SignFileFlag,
 			},
 
 			Action: func(c *cli.Context) error {
@@ -129,8 +129,8 @@ func main() {
 			Usage:   "Verify a file with a public key",
 
 			Flags: []cli.Flag{
-				flags.VerifyFileFlag,
 				flags.PublicKeyFlag,
+				flags.VerifyFileFlag,
 			},
 
 			Action: func(c *cli.Context) error {
